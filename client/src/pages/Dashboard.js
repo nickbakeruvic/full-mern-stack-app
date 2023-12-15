@@ -32,6 +32,8 @@ const Dashboard = () => {
 			} else {
 				populateQuote()
 			}
+		} else {
+			history.replace('/login')
 		}
 	}, [])
 
