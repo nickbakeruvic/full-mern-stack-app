@@ -6,6 +6,9 @@ const User = new mongoose.Schema(
 		email: { type: String, required: true, unique: true },
 		password: { type: String, required: true },
 		quote: { type: String },
+		//messages: { type: String },
+		// messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
+		messages: [{ type: String }],
 	},
 	{ collection: 'user-data' }
 )

@@ -4,6 +4,7 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const User = require('./models/user.model')
+const Chat = require('./models/chat.model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
@@ -65,7 +66,7 @@ app.get('/api/quote', async (req, res) => {
 		const email = decoded.email
 		const user = await User.findOne({ email: email })
 
-		return res.json({ status: 'ok', quote: user.quote })
+		return res.json({ status: 'ok', quote: user.quote, chat: user.messages })
 	} catch (error) {
 		console.log(error)
 		res.json({ status: 'error', error: 'invalid token' })
@@ -80,7 +81,7 @@ app.post('/api/quote', async (req, res) => {
 		const email = decoded.email
 		await User.updateOne(
 			{ email: email },
-			{ $set: { quote: req.body.quote } }
+			{ $push: { messages: req.body.quote } }
 		)
 
 		return res.json({ status: 'ok' })

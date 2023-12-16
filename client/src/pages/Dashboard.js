@@ -17,6 +17,7 @@ const Dashboard = () => {
 		const data = await req.json()
 		if (data.status === 'ok') {
 			setQuote(data.quote)
+			alert("chat " + data.chat)
 		} else {
 			alert(data.error)
 		}
