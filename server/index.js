@@ -4,7 +4,7 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const User = require('./models/user.model')
-// const Chat = require('./models/chat.model')
+const Journal = require('./models/journal.model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
@@ -65,8 +65,9 @@ app.get('/api/quote', async (req, res) => {
 		const decoded = jwt.verify(token, 'secret123')
 		const email = decoded.email
 		const user = await User.findOne({ email: email })
+		const journal = await Journal.findById(user.journal)
 
-		return res.json({ status: 'ok', quote: user.quote, chat: user.messages })
+		return res.json({ status: 'ok', quote: user.quote, chat: journal.messages })
 	} catch (error) {
 		console.log(error)
 		res.json({ status: 'error', error: 'invalid token' })
@@ -79,9 +80,14 @@ app.post('/api/quote', async (req, res) => {
 	try {
 		const decoded = jwt.verify(token, 'secret123')
 		const email = decoded.email
+
+		j = await Journal.create({
+			messages: req.body.quote
+		})
+
 		await User.updateOne(
 			{ email: email },
-			{ $push: { messages: req.body.quote } }
+			{ $set: { journal: j} }
 		)
 
 		return res.json({ status: 'ok' })

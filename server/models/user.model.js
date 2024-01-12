@@ -7,8 +7,8 @@ const User = new mongoose.Schema(
 		password: { type: String, required: true },
 		quote: { type: String },
 		//messages: { type: String },
-		// messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
-		messages: [{ type: String }],
+		journal: { type: mongoose.Schema.Types.ObjectId, ref: "Journal" },
+		// messages: [{ type: String }],
 	},
 	{ collection: 'user-data' }
 )
