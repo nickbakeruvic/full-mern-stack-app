@@ -1,0 +1,8 @@
+.journal-wrapper {
+    border: thin solid red;
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+}
