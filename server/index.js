@@ -66,8 +66,8 @@ app.get('/api/quote', async (req, res) => {
 		const email = decoded.email
 		const user = await User.findOne({ email: email })
 		const journal = await Journal.findById(user.journal)
-
-		return res.json({ status: 'ok', quote: user.quote, chat: journal.messages })
+		console.log("JOURNAL ID " + user.journal);
+		return res.json({ status: 'ok', quote: user.quote, chat: journal.title + "|" + journal.content + "|" + journal.date + "|" + journal.last_edited})
 	} catch (error) {
 		console.log(error)
 		res.json({ status: 'error', error: 'invalid token' })
@@ -81,13 +81,16 @@ app.post('/api/quote', async (req, res) => {
 		const decoded = jwt.verify(token, 'secret123')
 		const email = decoded.email
 
-		j = await Journal.create({
-			messages: req.body.quote
+		new_journal_entry = await Journal.create({
+			title: req.body.quote,
+			content: "content",
+			date: "date",
+			last_edited: "last edited"
 		})
 
 		await User.updateOne(
 			{ email: email },
-			{ $set: { journal: j} }
+			{ $push: { journal: new_journal_entry} }
 		)
 
 		return res.json({ status: 'ok' })

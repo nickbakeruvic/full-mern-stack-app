@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 
 const Journal = new mongoose.Schema(
 	{
-		messages: { type: String },
+		title: { type: String, required: true },
+		content: { type: String, required: true },
+		date: { type: String, required: true },
+		last_edited: { type: String, required: true },
 	},
 	{ collection: 'journal-data' }
 )
