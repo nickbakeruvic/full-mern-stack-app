@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import jwt from 'jsonwebtoken'
 import { useHistory } from 'react-router-dom'
+import '../Dashboard.css'
 
 const Dashboard = () => {
 	const history = useHistory()
@@ -90,12 +91,10 @@ const Dashboard = () => {
 					onChange={(e) => setTempQuote(e.target.value)}
 				/>
 				<input type="submit" value="Update quote" />
-
-				{journals.map(journal => (
-					<Journal_Item { ...journal } />
-				))}
-
 			</form>
+			{journals.map(journal => (
+				<Journal_Item { ...journal } />
+			))}
 		</div>
 	)
 }
@@ -114,24 +113,57 @@ function Journal_Item(journal) {
 }
 
 function Edit_Journal(journal) {
+	const [newTitle, setNewTitle] = useState(journal.title)
+	const [newContent, setNewContent] = useState(journal.content)
 
-	const journal_style = {
-		border: 'thin solid red',
-		position: 'absolute',
-		top: '0px',
-		height: '100%',
-		width: '100%',
-		backgroundColor: 'white',
+	async function updateJournal(event) {
+		event.preventDefault()
+
+		if (journal.title === newTitle && journal.content === newContent)
+			return
+
+		const req = await fetch('/api/journals', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'x-access-token': localStorage.getItem('token'),
+			},
+			body: JSON.stringify({
+				quote: "temp quote",
+				title: newTitle,
+				content: newContent,
+			}),
+		})
+
+		const data = await req.json()
+		if (data.status === 'ok') {
+			console.log("success")
+		} else {
+			alert(data.error)
+		}
 	}
 
 	return (
-		<div style={journal_style}>
-			<div>
-				<h1> {journal.title} </h1>
-			</div>
-			<div>
-				<p> {journal.content} </p>
-			</div>
+		<div className="journal-wrapper">
+			<form onSubmit={updateJournal}>
+				<div>
+					<input
+						type="text"
+						placeholder="Title"
+						value={newTitle}
+						onChange={(e) => setNewTitle(e.target.value)}
+					/>
+				</div>
+				<div>
+					<input
+						type="text"
+						placeholder="Type your content here..."
+						value={newContent}
+						onChange={(e) => setNewContent(e.target.value)}
+					/>
+				</div>
+				<input type="submit" value="Save" />
+			</form>
 		</div>
 	);
 }
