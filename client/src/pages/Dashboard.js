@@ -6,6 +6,8 @@ const Dashboard = () => {
 	const history = useHistory()
 	const [quote, setQuote] = useState('')
 	const [tempQuote, setTempQuote] = useState('')
+	const [title, setTitle] = useState('')
+	const [content, setContent] = useState('')
 
 	async function populateQuote() {
 		const req = await fetch('/api/journals', {
@@ -17,7 +19,8 @@ const Dashboard = () => {
 		const data = await req.json()
 		if (data.status === 'ok') {
 			setQuote(data.quote)
-			data.journals_list.journals.forEach((element) => console.log("journal entry: " + element.title + "|" + element.content + "|" + element.date + "|" + element.last_edited));
+
+			data.journals_list.journals.forEach((element) => console.log("journal entry: " + element.title + "|" + element.content + "|" + new Date(element.date) + "|" + new Date(element.last_edited)));
 		} else {
 			alert(data.error)
 		}
@@ -49,6 +52,8 @@ const Dashboard = () => {
 			},
 			body: JSON.stringify({
 				quote: tempQuote,
+				title: title,
+				content: content,
 			}),
 		})
 
@@ -65,6 +70,20 @@ const Dashboard = () => {
 		<div>
 			<h1>Your quote: {quote || 'No quote found'}</h1>
 			<form onSubmit={updateQuote}>
+				<input
+					type="text"
+					placeholder="Title"
+					value={title}
+					onChange={(e) => setTitle(e.target.value)}
+				/>
+				<br/>
+				<input
+					type="text"
+					placeholder="Content"
+					value={content}
+					onChange={(e) => setContent(e.target.value)}
+				/>
+				<br/>
 				<input
 					type="text"
 					placeholder="Quote"

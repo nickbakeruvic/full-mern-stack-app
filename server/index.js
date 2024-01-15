@@ -66,7 +66,6 @@ app.get('/api/journals', async (req, res) => {
 		const email = decoded.email
 		const user = await User.findOne({ email: email })
 		const journals = await User.findById(user._id).populate({ path: "journals", });
-		console.log("JOURNALS " + journals);
 
 		return res.json({ status: 'ok', quote: user.quote, journals_list: journals})
 	} catch (error) {
@@ -83,10 +82,8 @@ app.post('/api/journals', async (req, res) => {
 		const email = decoded.email
 
 		new_journal_entry = await Journal.create({
-			title: req.body.quote,
-			content: "content",
-			date: "date",
-			last_edited: "last edited"
+			title: req.body.title,
+			content: req.body.content,
 		})
 
 		await User.updateOne(
