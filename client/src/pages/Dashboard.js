@@ -8,7 +8,7 @@ const Dashboard = () => {
 	const [tempQuote, setTempQuote] = useState('')
 
 	async function populateQuote() {
-		const req = await fetch('/api/quote', {
+		const req = await fetch('/api/journals', {
 			headers: {
 				'x-access-token': localStorage.getItem('token'),
 			},

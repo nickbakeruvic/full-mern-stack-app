@@ -58,7 +58,7 @@ app.post('/api/login', async (req, res) => {
 	}
 })
 
-app.get('/api/quote', async (req, res) => {
+app.get('/api/journals', async (req, res) => {
 	const token = req.headers['x-access-token']
 
 	try {
