@@ -65,9 +65,10 @@ app.get('/api/quote', async (req, res) => {
 		const decoded = jwt.verify(token, 'secret123')
 		const email = decoded.email
 		const user = await User.findOne({ email: email })
-		const journal = await Journal.findById(user.journal)
-		console.log("JOURNAL ID " + user.journal);
-		return res.json({ status: 'ok', quote: user.quote, chat: journal.title + "|" + journal.content + "|" + journal.date + "|" + journal.last_edited})
+		const journals = await User.findById(user._id).populate({ path: "journals", });
+		console.log("JOURNALS " + journals);
+
+		return res.json({ status: 'ok', quote: user.quote, journals_list: journals})
 	} catch (error) {
 		console.log(error)
 		res.json({ status: 'error', error: 'invalid token' })
@@ -90,7 +91,7 @@ app.post('/api/quote', async (req, res) => {
 
 		await User.updateOne(
 			{ email: email },
-			{ $push: { journal: new_journal_entry} }
+			{ $push: { journals: new_journal_entry} }
 		)
 
 		return res.json({ status: 'ok' })

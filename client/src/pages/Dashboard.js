@@ -17,7 +17,7 @@ const Dashboard = () => {
 		const data = await req.json()
 		if (data.status === 'ok') {
 			setQuote(data.quote)
-			alert("chat " + data.chat)
+			data.journals_list.journals.forEach((element) => console.log("journal entry: " + element.title + "|" + element.content + "|" + element.date + "|" + element.last_edited));
 		} else {
 			alert(data.error)
 		}
