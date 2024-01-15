@@ -8,6 +8,7 @@ const Dashboard = () => {
 	const [tempQuote, setTempQuote] = useState('')
 	const [title, setTitle] = useState('')
 	const [content, setContent] = useState('')
+	const [journals, setJournals] = useState([])
 
 	async function populateQuote() {
 		const req = await fetch('/api/journals', {
@@ -19,8 +20,7 @@ const Dashboard = () => {
 		const data = await req.json()
 		if (data.status === 'ok') {
 			setQuote(data.quote)
-
-			data.journals_list.journals.forEach((element) => console.log("journal entry: " + element.title + "|" + element.content + "|" + new Date(element.date) + "|" + new Date(element.last_edited)));
+			setJournals(data.journals_list.journals)
 		} else {
 			alert(data.error)
 		}
@@ -91,9 +91,18 @@ const Dashboard = () => {
 					onChange={(e) => setTempQuote(e.target.value)}
 				/>
 				<input type="submit" value="Update quote" />
+
+				{journals.map(journal => (
+					<Journal_Item { ...journal } />
+				))}
+
 			</form>
 		</div>
 	)
+}
+
+function Journal_Item(journal) {
+	return <h1> { journal.title } - { journal.content } - { journal.date } - { journal.last_edited } </h1>
 }
 
 export default Dashboard
