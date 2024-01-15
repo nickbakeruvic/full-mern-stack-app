@@ -10,7 +10,7 @@ const Dashboard = () => {
 	const [content, setContent] = useState('')
 	const [journals, setJournals] = useState([])
 
-	async function populateQuote() {
+	async function populateJournals() {
 		const req = await fetch('/api/journals', {
 			headers: {
 				'x-access-token': localStorage.getItem('token'),
@@ -34,7 +34,7 @@ const Dashboard = () => {
 				localStorage.removeItem('token')
 				history.replace('/login')
 			} else {
-				populateQuote()
+				populateJournals()
 			}
 		} else {
 			history.replace('/login')
@@ -68,7 +68,6 @@ const Dashboard = () => {
 
 	return (
 		<div>
-			<h1>Your quote: {quote || 'No quote found'}</h1>
 			<form onSubmit={updateQuote}>
 				<input
 					type="text"
@@ -102,7 +101,39 @@ const Dashboard = () => {
 }
 
 function Journal_Item(journal) {
-	return <h1> { journal.title } - { journal.content } - { journal.date } - { journal.last_edited } </h1>
+	const [editing, setEditing] = useState(false)
+
+	return (
+		<>
+			{editing && <Edit_Journal { ...journal } />}
+			<div>
+				<h1> { journal.title } - { journal.content } <button onClick={(e) => setEditing(true)}>Edit</button> </h1>
+			</div>
+		</>
+	);
+}
+
+function Edit_Journal(journal) {
+
+	const journal_style = {
+		border: 'thin solid red',
+		position: 'absolute',
+		top: '0px',
+		height: '100%',
+		width: '100%',
+		backgroundColor: 'white',
+	}
+
+	return (
+		<div style={journal_style}>
+			<div>
+				<h1> {journal.title} </h1>
+			</div>
+			<div>
+				<p> {journal.content} </p>
+			</div>
+		</div>
+	);
 }
 
 export default Dashboard
