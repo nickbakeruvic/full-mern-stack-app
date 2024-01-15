@@ -40,43 +40,66 @@ const Dashboard = () => {
 
 	return (
 		<>
-			{addingJournal && <Edit_Journal { ...{title: '', content: '', _id: '', new_journal: true} } />}
-			<button onClick={(e) => setAddingJournal(true)}>Add Journal</button>
+			{addingJournal &&
+			<Journal_Editor
+				journal={ {title: '', content: '', _id: '', new_journal: true } }
+				exit_callback={ () => setAddingJournal(false) }
+				populate_callback={ populateJournals }
+			/>}
+			<button
+				onClick={(e) => setAddingJournal(true)}>
+					Add Journal
+			</button>
 			<div>
 				{journals.map(journal => (
-					<Journal_Item { ...journal } />
+					<Journal_Item
+						journal={ journal }
+						populate_callback={ populateJournals }
+					/>
 				))}
 			</div>
 		</>
 	)
 }
 
-function Journal_Item(journal) {
-	const [editing, setEditing] = useState(false)
+function Journal_Item({journal, populate_callback}) {
+	const [editingJournal, setEditingJournal] = useState(false)
 
 	return (
 		<>
-			{editing && <Edit_Journal { ...journal } />}
+			{editingJournal &&
+				<Journal_Editor
+					journal={ journal }
+					exit_callback={ () => setEditingJournal(false) }
+					populate_callback={ populate_callback }
+				/>}
 			<div>
-				<h1> { journal.title } - { journal.content } <button onClick={(e) => setEditing(true)}>Edit</button> </h1>
+				<h1> { journal.title } - { journal.content }
+					<button
+						onClick={(e) => setEditingJournal(true)}>
+							Edit
+					</button>
+				</h1>
 			</div>
 		</>
 	);
 }
 
-function Edit_Journal(journal) {
+function Journal_Editor({journal, exit_callback, populate_callback}) {
 	const [newTitle, setNewTitle] = useState(journal.title)
 	const [newContent, setNewContent] = useState(journal.content)
 
 	async function updateJournal(event) {
-		event.preventDefault()
 		let http_method = 'PUT'
+
+		if (event !== null)
+			event.preventDefault()
 
 		if (journal.title === newTitle && journal.content === newContent)
 			return
 
 		if (journal.new_journal)
-		http_method = 'POST'
+			http_method = 'POST'
 
 		const req = await fetch('/api/journals', {
 			method: http_method,
@@ -100,7 +123,6 @@ function Edit_Journal(journal) {
 	}
 
 	async function deleteJournal() {
-
 		const req = await fetch('/api/journals', {
 			method: 'DELETE',
 			headers: {
@@ -142,6 +164,7 @@ function Edit_Journal(journal) {
 				<input type="submit" value="Save" />
 			</form>
 			{ journal.new_journal !== true && <button onClick={(e) => deleteJournal() }> Delete </button> }
+			<button onClick={(e) => {updateJournal(null); populate_callback(); exit_callback()} }> Save & Exit </button>
 		</div>
 	);
 }
