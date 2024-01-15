@@ -5,10 +5,6 @@ import '../Dashboard.css'
 
 const Dashboard = () => {
 	const history = useHistory()
-	const [quote, setQuote] = useState('')
-	const [tempQuote, setTempQuote] = useState('')
-	const [title, setTitle] = useState('')
-	const [content, setContent] = useState('')
 	const [journals, setJournals] = useState([])
 
 	async function populateJournals() {
@@ -20,7 +16,6 @@ const Dashboard = () => {
 
 		const data = await req.json()
 		if (data.status === 'ok') {
-			setQuote(data.quote)
 			setJournals(data.journals_list.journals)
 		} else {
 			alert(data.error)
@@ -42,56 +37,8 @@ const Dashboard = () => {
 		}
 	}, [])
 
-	async function updateQuote(event) {
-		event.preventDefault()
-
-		const req = await fetch('/api/journals', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'x-access-token': localStorage.getItem('token'),
-			},
-			body: JSON.stringify({
-				quote: tempQuote,
-				title: title,
-				content: content,
-			}),
-		})
-
-		const data = await req.json()
-		if (data.status === 'ok') {
-			setQuote(tempQuote)
-			setTempQuote('')
-		} else {
-			alert(data.error)
-		}
-	}
-
 	return (
 		<div>
-			<form onSubmit={updateQuote}>
-				<input
-					type="text"
-					placeholder="Title"
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-				/>
-				<br/>
-				<input
-					type="text"
-					placeholder="Content"
-					value={content}
-					onChange={(e) => setContent(e.target.value)}
-				/>
-				<br/>
-				<input
-					type="text"
-					placeholder="Quote"
-					value={tempQuote}
-					onChange={(e) => setTempQuote(e.target.value)}
-				/>
-				<input type="submit" value="Update quote" />
-			</form>
 			{journals.map(journal => (
 				<Journal_Item { ...journal } />
 			))}
@@ -123,15 +70,36 @@ function Edit_Journal(journal) {
 			return
 
 		const req = await fetch('/api/journals', {
-			method: 'POST',
+			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
 				'x-access-token': localStorage.getItem('token'),
 			},
 			body: JSON.stringify({
-				quote: "temp quote",
+				id: journal._id,
 				title: newTitle,
 				content: newContent,
+			}),
+		})
+
+		const data = await req.json()
+		if (data.status === 'ok') {
+			console.log("success")
+		} else {
+			alert(data.error)
+		}
+	}
+
+	async function deleteJournal() {
+
+		const req = await fetch('/api/journals', {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'x-access-token': localStorage.getItem('token'),
+			},
+			body: JSON.stringify({
+				id: journal._id,
 			}),
 		})
 
@@ -164,6 +132,7 @@ function Edit_Journal(journal) {
 				</div>
 				<input type="submit" value="Save" />
 			</form>
+			<button onClick={(e) => deleteJournal() }> Delete </button>
 		</div>
 	);
 }

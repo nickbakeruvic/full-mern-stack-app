@@ -67,7 +67,7 @@ app.get('/api/journals', async (req, res) => {
 		const user = await User.findOne({ email: email })
 		const journals = await User.findById(user._id).populate({ path: "journals", });
 
-		return res.json({ status: 'ok', quote: user.quote, journals_list: journals})
+		return res.json({ status: 'ok', journals_list: journals})
 	} catch (error) {
 		console.log(error)
 		res.json({ status: 'error', error: 'invalid token' })
@@ -89,6 +89,47 @@ app.post('/api/journals', async (req, res) => {
 		await User.updateOne(
 			{ email: email },
 			{ $push: { journals: new_journal_entry} }
+		)
+
+		return res.json({ status: 'ok' })
+	} catch (error) {
+		console.log(error)
+		// TODO: better error messages i.e. mongoose validation fails
+		res.json({ status: 'error', error: 'invalid token' })
+	}
+})
+
+// TODO: may need to check user in order to validate auth
+app.put('/api/journals', async (req, res) => {
+	const token = req.headers['x-access-token']
+
+	try {
+		const decoded = jwt.verify(token, 'secret123')
+
+		await Journal.updateOne(
+			{ _id: req.body.id },
+			{ $set: { title: req.body.title, content: req.body.content, last_edited: Date.now() } }
+		)
+
+		return res.json({ status: 'ok' })
+	} catch (error) {
+		console.log(error)
+		// TODO: better error messages i.e. mongoose validation fails
+		res.json({ status: 'error', error: 'invalid token' })
+	}
+})
+
+// TODO: may need to check user in order to validate auth
+app.delete('/api/journals', async (req, res) => {
+	const token = req.headers['x-access-token']
+
+	console.log("delete")
+
+	try {
+		const decoded = jwt.verify(token, 'secret123')
+
+		await Journal.deleteOne(
+			{ _id: req.body.id },
 		)
 
 		return res.json({ status: 'ok' })
