@@ -6,6 +6,7 @@ import '../Dashboard.css'
 const Dashboard = () => {
 	const history = useHistory()
 	const [journals, setJournals] = useState([])
+	const [addingJournal, setAddingJournal] = useState(false)
 
 	async function populateJournals() {
 		const req = await fetch('/api/journals', {
@@ -38,11 +39,15 @@ const Dashboard = () => {
 	}, [])
 
 	return (
-		<div>
-			{journals.map(journal => (
-				<Journal_Item { ...journal } />
-			))}
-		</div>
+		<>
+			{addingJournal && <Edit_Journal { ...{title: '', content: '', _id: '', new_journal: true} } />}
+			<button onClick={(e) => setAddingJournal(true)}>Add Journal</button>
+			<div>
+				{journals.map(journal => (
+					<Journal_Item { ...journal } />
+				))}
+			</div>
+		</>
 	)
 }
 
@@ -65,12 +70,16 @@ function Edit_Journal(journal) {
 
 	async function updateJournal(event) {
 		event.preventDefault()
+		let http_method = 'PUT'
 
 		if (journal.title === newTitle && journal.content === newContent)
 			return
 
+		if (journal.new_journal)
+		http_method = 'POST'
+
 		const req = await fetch('/api/journals', {
-			method: 'PUT',
+			method: http_method,
 			headers: {
 				'Content-Type': 'application/json',
 				'x-access-token': localStorage.getItem('token'),
@@ -132,7 +141,7 @@ function Edit_Journal(journal) {
 				</div>
 				<input type="submit" value="Save" />
 			</form>
-			<button onClick={(e) => deleteJournal() }> Delete </button>
+			{ journal.new_journal !== true && <button onClick={(e) => deleteJournal() }> Delete </button> }
 		</div>
 	);
 }
