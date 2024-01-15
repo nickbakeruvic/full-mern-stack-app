@@ -41,7 +41,7 @@ const Dashboard = () => {
 	async function updateQuote(event) {
 		event.preventDefault()
 
-		const req = await fetch('/api/quote', {
+		const req = await fetch('/api/journals', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
