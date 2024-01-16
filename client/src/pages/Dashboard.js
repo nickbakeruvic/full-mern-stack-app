@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import jwt from 'jsonwebtoken'
 import { useHistory } from 'react-router-dom'
 import '../Dashboard.css'
+import delete_icon from './resources/delete_icon.png'
+import back_icon from './resources/back_arrow_icon.png'
+import save_icon from './resources/save_icon.png'
 
 const Dashboard = () => {
 	const history = useHistory()
@@ -53,6 +56,7 @@ const Dashboard = () => {
 			<div>
 				{journals.map(journal => (
 					<Journal_Item
+						key={ journal._id }
 						journal={ journal }
 						populate_callback={ populateJournals }
 					/>
@@ -88,6 +92,7 @@ function Journal_Item({journal, populate_callback}) {
 function Journal_Editor({journal, exit_callback, populate_callback}) {
 	const [newTitle, setNewTitle] = useState(journal.title)
 	const [newContent, setNewContent] = useState(journal.content)
+	const deleteIconMessage = journal.new_journal ? 'Discard' : 'Delete'
 
 	async function updateJournal(event) {
 		let http_method = 'PUT'
@@ -154,18 +159,28 @@ function Journal_Editor({journal, exit_callback, populate_callback}) {
 						onChange={(e) => setNewTitle(e.target.value)}
 					/>
 				</div>
-				<div className="journal-content-wrapper">
-					<textarea
-						className="journal-content"
-						placeholder="Type your content here..."
-						value={newContent}
-						onChange={(e) => setNewContent(e.target.value)}
-					/>
+				<hr></hr>
+				<div className="journal-interactions-wrapper">
+					<div className="journal-content-wrapper">
+						<textarea
+							className="journal-content"
+							placeholder="Type your content here..."
+							value={newContent}
+							onChange={(e) => setNewContent(e.target.value)}
+						/>
+						<img src={ save_icon } className="save-icon" alt="Save journal icon" onClick={(e) => {updateJournal(null); populate_callback(); exit_callback()} }></img>
+					</div>
 				</div>
 				<input type="submit" value="Save" />
 			</form>
-			{ journal.new_journal !== true && <button onClick={(e) => deleteJournal() }> Delete </button> }
-			<button onClick={(e) => {updateJournal(null); populate_callback(); exit_callback()} }> Save & Exit </button>
+			<div className="delete-button-wrapper" onClick={(e) => {deleteJournal(); populate_callback(); exit_callback()}}>
+				<img src={ delete_icon } className="delete-icon" alt="Delete journal icon"></img>
+				<span className="delete-text">{ deleteIconMessage }</span>
+			</div>
+			<div className="back-button-wrapper" onClick={(e) => exit_callback()}>
+				<img src={ back_icon } className="back-icon" alt="Back arrow icon"></img>
+				<span className="back-text">Back</span>
+			</div>
 		</div>
 	);
 }

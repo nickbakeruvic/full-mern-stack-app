@@ -1,11 +1,10 @@
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+textarea, input, textarea:focus, input:focus{
+    outline: none;
+    border: none;
+    resize: none;
 }
 
 .journal-wrapper {
-    border: thin solid red;
     position: absolute;
     top: 0px;
     height: 100%;
@@ -15,22 +14,99 @@ body {
 }
 
 .journal-title-wrapper {
-    border: thick solid green;
+    border: thin dashed black;
+    border: none;
 }
 
 .journal-title {
-    font-size: 3rem;
+    font-size: 5rem;
     font-weight: bold;
+    font-family: 'Times New Roman';
+    color: #353535;
+    width: 100%;
 }
 
 .journal-content-wrapper {
-    border:thick solid purple;
-    height: 100%;
+    padding: 15px;
+    border: thin solid #A0A0A0;
+    border-radius: 15px;
+    height: 50vh;
+    width: 100%;
+}
+
+.journal-interactions-wrapper {
+    border-radius: 15px;
+    height: 60vh;
     width: 100%;
 }
 
 .journal-content {
-    resize: none;
+    font-size: 1.5rem;
+    font-family: 'Verdana';
+    color: #202020;
     width: 100%;
     height: 100%;
+}
+
+
+
+.save-icon {
+    height: 8vh;
+    float: right;
+    margin-top: 2vh;
+}
+
+.back-button-wrapper {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 5vh 5vh 5vh 5vh;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    cursor: grab;
+}
+
+.back-icon {
+    height: 4vh;
+}
+
+.delete-button-wrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 5vh 5vh 5vh 5vh;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    cursor: grab;
+}
+
+.delete-icon {
+    height: 4vh;
+}
+
+.delete-text {
+    font-size: 3rem;
+    margin-left: 1vh;
+}
+
+.back-button-wrapper:hover, .delete-button-wrapper:hover {
+    background-color: #F0F0F0;
+}
+
+.back-button-wrapper:active, .delete-button-wrapper:active {
+    background-color: #D7D7D7;
+}
+
+.back-text {
+    font-size: 3rem;
+    margin-left: 1vh;
+}
+
+hr {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }
