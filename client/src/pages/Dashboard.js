@@ -5,6 +5,7 @@ import '../Dashboard.css'
 import delete_icon from './resources/delete_icon.png'
 import back_icon from './resources/back_arrow_icon.png'
 import save_icon from './resources/save_icon.png'
+import calendar_icon from './resources/calendar_icon.png'
 
 const Dashboard = () => {
 	const history = useHistory()
@@ -69,6 +70,20 @@ const Dashboard = () => {
 function Journal_Item({journal, populate_callback}) {
 	const [editingJournal, setEditingJournal] = useState(false)
 
+	const weekdays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+	const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+	const dateCreated = new Date(journal.date)
+	const day = dateCreated.getDay()
+	const dayNum = dateCreated.getDate()
+	const monthNum = dateCreated.getMonth()
+
+	let contentPreview = journal.content
+	if (journal.content.length > 70) {
+		contentPreview = contentPreview.slice(0, 70) + "..."
+	}
+
+
 	return (
 		<>
 			{editingJournal &&
@@ -77,13 +92,21 @@ function Journal_Item({journal, populate_callback}) {
 					exit_callback={ () => setEditingJournal(false) }
 					populate_callback={ populate_callback }
 				/>}
-			<div>
-				<h1> { journal.title } - { journal.content }
-					<button
-						onClick={(e) => setEditingJournal(true)}>
-							Edit
-					</button>
-				</h1>
+			<div className="preview-wrapper">
+				<div className='preview-date-wrapper' id="editor-column">
+					<img src={ calendar_icon } className="icon" alt="Calendar icon"></img>
+					<span className="button-text"> { weekdays[day] + ", " + months[monthNum]+  " " + dayNum } </span>
+				</div>
+				<div className='preview-title-wrapper' id="editor-column">
+					<span> { journal.title } </span>
+				</div>
+				<div className='preview-content-wrapper' id="editor-column">
+					<span> { contentPreview } </span>
+				</div>
+				<button
+					onClick={(e) => setEditingJournal(true)}>
+						Edit
+				</button>
 			</div>
 		</>
 	);
@@ -143,7 +166,7 @@ function Journal_Editor({journal, exit_callback, populate_callback}) {
 		if (data.status === 'ok') {
 			console.log("success")
 		} else {
-			alert(data.error)
+			console.log(data.error)
 		}
 	}
 
