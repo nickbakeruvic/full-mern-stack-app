@@ -149,37 +149,40 @@ function Journal_Editor({journal, exit_callback, populate_callback}) {
 
 	return (
 		<div className="journal-wrapper">
-			<form onSubmit={updateJournal}>
-				<div className="journal-title-wrapper">
-					<input
-						className="journal-title"
-						type="text"
-						placeholder="Title"
-						value={newTitle}
-						onChange={(e) => setNewTitle(e.target.value)}
-					/>
-				</div>
-				<hr></hr>
-				<div className="journal-interactions-wrapper">
-					<div className="journal-content-wrapper">
-						<textarea
-							className="journal-content"
-							placeholder="Type your content here..."
-							value={newContent}
-							onChange={(e) => setNewContent(e.target.value)}
-						/>
-						<img src={ save_icon } className="save-icon" alt="Save journal icon" onClick={(e) => {updateJournal(null); populate_callback(); exit_callback()} }></img>
-					</div>
-				</div>
-				<input type="submit" value="Save" />
-			</form>
-			<div className="delete-button-wrapper" onClick={(e) => {deleteJournal(); populate_callback(); exit_callback()}}>
-				<img src={ delete_icon } className="delete-icon" alt="Delete journal icon"></img>
-				<span className="delete-text">{ deleteIconMessage }</span>
+			<div className="journal-title-wrapper">
+				<input
+					className="journal-title"
+					type="text"
+					placeholder="Title"
+					value={newTitle}
+					onChange={(e) => setNewTitle(e.target.value)}
+				/>
 			</div>
-			<div className="back-button-wrapper" onClick={(e) => exit_callback()}>
-				<img src={ back_icon } className="back-icon" alt="Back arrow icon"></img>
-				<span className="back-text">Back</span>
+			<hr></hr>
+			<div className="journal-interactions-wrapper">
+				<div className="journal-content-wrapper">
+					<textarea
+						className="journal-content"
+						placeholder="Type your content here..."
+						value={newContent}
+						onChange={(e) => setNewContent(e.target.value)}
+					/>
+					<div className="spacer">
+						<div className="save-button-wrapper" onClick={(e) => {updateJournal(null); populate_callback(); exit_callback()} }>
+							<img src={ save_icon } className="save-icon" alt="Save journal icon" ></img>
+							<span className="button-text">Save & Exit</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div className="delete-button-wrapper" id="button-wrapper" onClick={(e) => {deleteJournal(); populate_callback(); exit_callback()}}>
+				<img src={ delete_icon } className="icon" alt="Delete journal icon"></img>
+				<span className="button-text">{ deleteIconMessage }</span>
+			</div>
+			<div className="back-button-wrapper" id="button-wrapper" onClick={(e) => exit_callback()}>
+				<img src={ back_icon } className="icon" alt="Back arrow icon"></img>
+				<span className="button-text">Back</span>
 			</div>
 		</div>
 	);

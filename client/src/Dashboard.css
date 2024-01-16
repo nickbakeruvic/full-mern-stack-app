@@ -48,62 +48,60 @@ textarea, input, textarea:focus, input:focus{
     height: 100%;
 }
 
-
-
-.save-icon {
-    height: 8vh;
-    float: right;
-    margin-top: 2vh;
+#button-wrapper {
+    position: absolute;
+    margin: 5vh 5vh 5vh 5vh;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    cursor: grab;
 }
 
 .back-button-wrapper {
-    position: absolute;
     top: 0px;
     left: 0px;
-    margin: 5vh 5vh 5vh 5vh;
-    padding: 15px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    cursor: grab;
-}
-
-.back-icon {
-    height: 4vh;
 }
 
 .delete-button-wrapper {
-    position: absolute;
     top: 0px;
     right: 0px;
-    margin: 5vh 5vh 5vh 5vh;
-    padding: 15px;
+}
+
+.save-button-wrapper {
+    float: right;
     border-radius: 15px;
+    padding-right: 17px;
     display: flex;
     align-items: center;
     cursor: grab;
 }
 
-.delete-icon {
+.spacer {
+    width: 100%;
+    margin-left: 16px;
+    margin-top: 2vh;
+}
+
+.save-icon {
+    height: 8vh;
+}
+
+.icon {
     height: 4vh;
 }
 
-.delete-text {
+.button-text {
     font-size: 3rem;
     margin-left: 1vh;
 }
 
-.back-button-wrapper:hover, .delete-button-wrapper:hover {
+#button-wrapper:hover, .save-button-wrapper:hover {
     background-color: #F0F0F0;
 }
 
-.back-button-wrapper:active, .delete-button-wrapper:active {
+#button-wrapper:active, .save-button-wrapper:active {
     background-color: #D7D7D7;
-}
-
-.back-text {
-    font-size: 3rem;
-    margin-left: 1vh;
 }
 
 hr {
