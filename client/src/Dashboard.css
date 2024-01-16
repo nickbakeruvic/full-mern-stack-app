@@ -1,8 +1,36 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+}
+
 .journal-wrapper {
     border: thin solid red;
     position: absolute;
     top: 0px;
     height: 100%;
     width: 100%;
+    padding: 10% 20% 10% 20%;
     background-color: white;
+}
+
+.journal-title-wrapper {
+    border: thick solid green;
+}
+
+.journal-title {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.journal-content-wrapper {
+    border:thick solid purple;
+    height: 100%;
+    width: 100%;
+}
+
+.journal-content {
+    resize: none;
+    width: 100%;
+    height: 100%;
 }

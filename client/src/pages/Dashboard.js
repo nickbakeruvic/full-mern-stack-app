@@ -145,17 +145,18 @@ function Journal_Editor({journal, exit_callback, populate_callback}) {
 	return (
 		<div className="journal-wrapper">
 			<form onSubmit={updateJournal}>
-				<div>
+				<div className="journal-title-wrapper">
 					<input
+						className="journal-title"
 						type="text"
 						placeholder="Title"
 						value={newTitle}
 						onChange={(e) => setNewTitle(e.target.value)}
 					/>
 				</div>
-				<div>
-					<input
-						type="text"
+				<div className="journal-content-wrapper">
+					<textarea
+						className="journal-content"
 						placeholder="Type your content here..."
 						value={newContent}
 						onChange={(e) => setNewContent(e.target.value)}
