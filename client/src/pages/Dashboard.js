@@ -6,6 +6,7 @@ import delete_icon from './resources/delete_icon.png'
 import back_icon from './resources/back_arrow_icon.png'
 import save_icon from './resources/save_icon.png'
 import calendar_icon from './resources/calendar_icon.png'
+import edit_icon from './resources/edit_icon.png'
 
 const Dashboard = () => {
 	const history = useHistory()
@@ -78,12 +79,6 @@ function Journal_Item({journal, populate_callback}) {
 	const dayNum = dateCreated.getDate()
 	const monthNum = dateCreated.getMonth()
 
-	let contentPreview = journal.content
-	if (journal.content.length > 70) {
-		contentPreview = contentPreview.slice(0, 70) + "..."
-	}
-
-
 	return (
 		<>
 			{editingJournal &&
@@ -101,12 +96,12 @@ function Journal_Item({journal, populate_callback}) {
 					<span> { journal.title } </span>
 				</div>
 				<div className='preview-content-wrapper' id="editor-column">
-					<span> { contentPreview } </span>
+					<span> { journal.content } </span>
 				</div>
-				<button
-					onClick={(e) => setEditingJournal(true)}>
-						Edit
-				</button>
+				<div className="preview-edit-wrapper" id="editor-column" onClick={(e) => setEditingJournal(true)}>
+					<img src={ edit_icon } className="icon" alt="Edit icon"></img>
+					<span className="button-text">Edit</span>
+				</div>
 			</div>
 		</>
 	);
