@@ -7,6 +7,7 @@ import back_icon from './resources/back_arrow_icon.png'
 import save_icon from './resources/save_icon.png'
 import calendar_icon from './resources/calendar_icon.png'
 import edit_icon from './resources/edit_icon.png'
+import add_icon from './resources/add_icon.png'
 
 const Dashboard = () => {
 	const history = useHistory()
@@ -45,16 +46,16 @@ const Dashboard = () => {
 
 	return (
 		<>
+			<div className="add-button-wrapper" id="button-wrapper" onClick={(e) => setAddingJournal(true)}>
+				<img src={ add_icon } className="icon" alt="Add journal icon"></img>
+				<span className="button-text">Add Journal</span>
+			</div>
 			{addingJournal &&
 			<Journal_Editor
 				journal={ {title: '', content: '', _id: '', new_journal: true } }
 				exit_callback={ () => setAddingJournal(false) }
 				populate_callback={ populateJournals }
 			/>}
-			<button
-				onClick={(e) => setAddingJournal(true)}>
-					Add Journal
-			</button>
 			<div>
 				{journals.map(journal => (
 					<Journal_Item
