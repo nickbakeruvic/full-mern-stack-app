@@ -177,3 +177,14 @@ span, strong {
     color: #303030;
 }
 
+/***** Dashboard *****/
+.dashboard-title-wrapper {
+    width: 100%;
+    text-align: center;
+    font-size: 5rem;
+    margin-bottom: 5%;
+}
+
+.dashboard-item-wrapper {
+    margin-left: 10%;
+}
