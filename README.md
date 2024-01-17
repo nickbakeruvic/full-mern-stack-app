@@ -4,7 +4,8 @@ Features:
 - Hosted at [nickbaker.cloud](http://www.nickbaker.cloud)
 - User authentication via JWT
 - REST API to Create / Read / Update / Delete journals and other user data
-- Yarn for package management & minifying scripts to optimize site loading time
+- Yarn for package management
+- react-scripts used to minify scripts to optimize site load time
 - On the host server, NGINX used as reverse proxy to throttle, optimize load times via caching, etc. & PM2 used to manage the node process to ensure minimal downtime
 
 To do:
