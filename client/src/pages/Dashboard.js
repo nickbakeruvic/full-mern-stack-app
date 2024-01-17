@@ -8,6 +8,7 @@ import save_icon from './resources/save_icon.png'
 import calendar_icon from './resources/calendar_icon.png'
 import edit_icon from './resources/edit_icon.png'
 import add_icon from './resources/add_icon.png'
+import logout_icon from './resources/logout_icon.png'
 
 const Dashboard = () => {
 	const history = useHistory()
@@ -44,11 +45,20 @@ const Dashboard = () => {
 		}
 	}, [])
 
+	function logout() {
+		localStorage.setItem('token', '')
+		window.location.href = '/'
+	}
+
 	return (
 		<>
 			<div className="add-button-wrapper" id="button-wrapper" onClick={(e) => setAddingJournal(true)}>
 				<img src={ add_icon } className="icon" alt="Add journal icon"></img>
 				<span className="button-text">Add Journal</span>
+			</div>
+			<div className="delete-button-wrapper" id="button-wrapper" onClick={() => logout()}>
+				<img src={ logout_icon } className="icon" alt="Logout icon"></img>
+				<span className="button-text">Logout</span>
 			</div>
 			{addingJournal &&
 			<Journal_Editor

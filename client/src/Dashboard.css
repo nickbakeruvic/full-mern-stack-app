@@ -61,7 +61,6 @@ textarea, input, textarea:focus, input:focus{
 .add-button-wrapper {
     bottom: 0px;
     right: 0px;
-    border-radius: 15px;
     border: thin solid black;
 }
 
