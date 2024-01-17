@@ -13,6 +13,15 @@ To do:
 - Allow users to add tags to journal entries & search by title, content, tag
 - Support HTTPS (NGINX configuration)
 
+Login:
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/729168aa-52ff-4055-98f0-ef65d86b508e)
+
+Dashboard page:
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/1a7d57dd-011e-4573-973a-50c7133b9168)
+
+Editing a journal:
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/f187bb91-dd2c-4ba9-9dc2-936fdb24959e)
+
 # Setup (remote host)
 
 To set up on a remote server, after cloning the repository, you will need to install dependencies, build & minify all scripts and then start a node process.
