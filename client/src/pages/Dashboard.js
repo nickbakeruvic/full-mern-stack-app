@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import jwt from 'jsonwebtoken'
 import { useHistory } from 'react-router-dom'
 import '../Dashboard.css'
@@ -9,6 +9,8 @@ import calendar_icon from './resources/calendar_icon.png'
 import edit_icon from './resources/edit_icon.png'
 import add_icon from './resources/add_icon.png'
 import logout_icon from './resources/logout_icon.png'
+
+const RepopulateContext = createContext(null)
 
 const Dashboard = () => {
 	const history = useHistory()
@@ -50,6 +52,11 @@ const Dashboard = () => {
 		window.location.href = '/'
 	}
 
+	const repopulate = function () {
+		populateJournals();
+		setAddingJournal(false);
+	}
+
 	return (
 		<>
 			<div className="add-button-wrapper" id="button-wrapper" onClick={() => setAddingJournal(true)}>
@@ -75,32 +82,33 @@ const Dashboard = () => {
 			</div>
 
 
+			<RepopulateContext.Provider value={repopulate}>
+				{addingJournal &&
+				<JournalEditor
+					journal={ {title: '', content: '', _id: '', new_journal: true } }
+				/>}
 
-			{addingJournal &&
-			<JournalEditor
-				journal={ {title: '', content: '', _id: '', new_journal: true } }
-				exit_callback={ () => setAddingJournal(false) }
-				populate_callback={ populateJournals }
-			/>}
-			<div className="dashboard-title-wrapper">
-				<span>Journal App</span>
-			</div>
+				<div className="dashboard-title-wrapper">
+					<span>Journal App</span>
+				</div>
 
-			<div className="dashboard-item-wrapper">
-				{journals.map(journal => (
-					<JournalItem
-						key={ journal._id }
-						journal={ journal }
-						populate_callback={ populateJournals }
-					/>
-				))}
-			</div>
+				<div className="dashboard-item-wrapper">
+					{journals.map(journal => (
+						<JournalItem
+							key={ journal._id }
+							journal={ journal }
+							populate_callback={ populateJournals }
+						/>
+					))}
+				</div>
+			</RepopulateContext.Provider>
 		</>
 	)
 }
 
-function JournalItem({journal, populate_callback}) {
+function JournalItem({journal}) {
 	const [editingJournal, setEditingJournal] = useState(false)
+	const parentRepopulate = useContext(RepopulateContext)
 
 	const weekdays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 	const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -110,14 +118,20 @@ function JournalItem({journal, populate_callback}) {
 	const dayNum = dateCreated.getDate()
 	const monthNum = dateCreated.getMonth()
 
+	const repopulate = function () {
+		parentRepopulate();
+		setEditingJournal(false);
+	}
+
 	return (
 		<>
-			{editingJournal &&
-				<JournalEditor
-					journal={ journal }
-					exit_callback={ () => setEditingJournal(false) }
-					populate_callback={ populate_callback }
-				/>}
+
+			<RepopulateContext.Provider value={repopulate}>
+				{editingJournal &&
+					<JournalEditor
+						journal={ journal }
+					/>}
+			</RepopulateContext.Provider>
 
 			<div className="preview-wrapper">
 				<div className='preview-date-wrapper' id="editor-column">
@@ -159,16 +173,19 @@ function JournalItem({journal, populate_callback}) {
 	);
 }
 
-function JournalEditor({journal, exit_callback, populate_callback}) {
+function JournalEditor({journal}) {
 	const [newTitle, setNewTitle] = useState(journal.title)
 	const [newContent, setNewContent] = useState(journal.content)
 	const deleteIconMessage = journal.new_journal ? 'Discard' : 'Delete'
+	const repopulate = useContext(RepopulateContext)
 
 	async function updateJournal() {
 		let http_method = 'PUT'
 
-		if (journal.title === newTitle && journal.content === newContent)
-			return
+		if (journal.title === newTitle && journal.content === newContent) {
+			repopulate();
+			return;
+		}
 
 		if (journal.new_journal)
 			http_method = 'POST'
@@ -192,6 +209,8 @@ function JournalEditor({journal, exit_callback, populate_callback}) {
 		} else {
 			alert(data.error)
 		}
+
+		repopulate();
 	}
 
 	async function deleteJournal() {
@@ -212,6 +231,8 @@ function JournalEditor({journal, exit_callback, populate_callback}) {
 		} else {
 			console.log(data.error)
 		}
+
+		repopulate();
 	}
 
 	return (
@@ -238,7 +259,7 @@ function JournalEditor({journal, exit_callback, populate_callback}) {
 					/>
 
 					<div className="spacer">
-						<div className="save-button-wrapper" onClick={() => {updateJournal(null); populate_callback(); exit_callback()} }>
+						<div className="save-button-wrapper" onClick={() => updateJournal(null)}>
 							<img
 								src={ save_icon }
 								className="save-icon"
@@ -252,7 +273,7 @@ function JournalEditor({journal, exit_callback, populate_callback}) {
 				</div>
 			</div>
 
-			<div className="delete-button-wrapper" id="button-wrapper" onClick={() => {deleteJournal(); populate_callback(); exit_callback()}}>
+			<div className="delete-button-wrapper" id="button-wrapper" onClick={() => deleteJournal()}>
 				<img
 					src={ delete_icon }
 					className="icon"
@@ -263,7 +284,7 @@ function JournalEditor({journal, exit_callback, populate_callback}) {
 				</span>
 			</div>
 
-			<div className="back-button-wrapper" id="button-wrapper" onClick={() => exit_callback()}>
+			<div className="back-button-wrapper" id="button-wrapper" onClick={() => repopulate()}>
 				<img
 					src={ back_icon }
 					className="icon"
@@ -277,7 +298,5 @@ function JournalEditor({journal, exit_callback, populate_callback}) {
 		</div>
 	);
 }
-
-/* deleteJournalButton component etc */
 
 export default Dashboard

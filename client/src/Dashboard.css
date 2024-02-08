@@ -134,6 +134,7 @@ hr {
     border-radius: 1vh;
     padding: 1vh;
     margin-bottom: 1vh;
+    margin-left: 10%;
 }
 
 .preview-date-wrapper {
@@ -183,8 +184,4 @@ span, strong {
     text-align: center;
     font-size: 5rem;
     margin-bottom: 5%;
-}
-
-.dashboard-item-wrapper {
-    margin-left: 10%;
 }
