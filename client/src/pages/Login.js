@@ -38,12 +38,14 @@ function App() {
 				<h2>Please Sign In</h2>
 				<form onSubmit={loginUser}>
 					<input
+						className={ "login-input"}
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						type="email"
 						placeholder="Email"
 					/>
 					<input
+						className={ "login-input"}
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						type="password"
