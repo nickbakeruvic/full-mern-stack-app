@@ -4,15 +4,14 @@ Features:
 - Hosted at [nickbaker.cloud](http://www.nickbaker.cloud)
 - User authentication via JWT
 - REST API to Create / Read / Update / Delete journals and other user data
-- Yarn for package management
 - react-scripts used to minify scripts to optimize site load time
-- On the host server, NGINX used as reverse proxy to throttle, optimize load times via caching, etc. & PM2 used to manage the node process to ensure minimal downtime
+- Created a CI/CD pipline to redeploy the site (pull new changes, compile & minify new scripts, restart the node process manager) on changes to the repository using Github actions
+- Additional technologies being run on the hosting server: NGINX used as reverse proxy to optimize load times, PM2 used to manage the node process to ensure minimal downtime, Yarn used for package management, Certbot used to automatically update SSL certificates
 
 To do:
-- Set up a CI/CD pipline to automatically pull new changes, minify new scripts, and restart the node process on the Ubuntu server hosting the site (likely will implement via github actions)
+- Create tests and add them to the CI/CD pipeline
 - Add a calendar view to dashboard
 - Allow users to add tags to journal entries & search by title, content, tag
-- Support HTTPS (NGINX configuration)
 
 Login:
 ![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/729168aa-52ff-4055-98f0-ef65d86b508e)
@@ -44,8 +43,8 @@ node index.js
 ```
 
 Recommended:
-- Configure NGINX to sit in front of your server and forward traffic from port 80 / 443 to your node server's port so that standard http / https traffic is routed to your server directly
-- Use PM2 to manage the node process (`pm2 start index.js`). PM2 will restart the node process if it ever crashes and will help ensure the server does not go down.
+- Configure NGINX to act as a reverse proxy and forward HTTP/HTTPS traffic to the node server's port
+- Use PM2 to manage the node process (`pm2 start index.js --watch --ignore-watch="node_modules"`). PM2 will restart the node process if it ever crashes and will help ensure the server does not go down. Starting `index.js` in watch mode will tell PM2 to automatically restart the node process upon changes to any files.
 
 # Setup (development)
 
