@@ -7,12 +7,15 @@ const User = require('./models/user.model')
 const Journal = require('./models/journal.model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+var dotenv = require('dotenv')
 
 app.use(cors())
 app.use(express.json())
 app.use(express.static('static'))
 
-mongoose.connect('mongodb+srv://xxx')
+dotenv.config()
+var mongo_uri = process.env.MONGO_URI;
+mongoose.connect(mongo_uri)
 
 app.post('/api/register', async (req, res) => {
 	console.log(req.body)
