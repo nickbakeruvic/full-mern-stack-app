@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import jwt from 'jsonwebtoken'
 import delete_icon from './resources/delete_icon.png'
 import back_icon from './resources/back_arrow_icon.png'
@@ -13,7 +12,6 @@ import '../Dashboard.css'
 const CleanupEditorContext = createContext(null)
 
 const Dashboard = () => {
-	const history = useHistory()
 	const [journals, setJournals] = useState([])
 	const [addingJournal, setAddingJournal] = useState(false)
 
@@ -38,12 +36,12 @@ const Dashboard = () => {
 			const user = jwt.decode(token)
 			if (!user) {
 				localStorage.removeItem('token')
-				history.replace('/login')
+				window.location.href = '/'
 			} else {
 				populateJournals()
 			}
 		} else {
-			history.replace('/login')
+			window.location.href = '/'
 		}
 	}, [])
 
