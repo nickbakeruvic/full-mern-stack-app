@@ -30,24 +30,23 @@ function App() {
 	}
 
 	return (
-		
 		<div class="container" onclick="onclick">
 			<div class="top"></div>
 			<div class="bottom"></div>
 			<div class="center">
 				<h2>Please Sign In</h2>
-				<form onSubmit={loginUser}>
+				<form onSubmit={ loginUser }>
 					<input
 						className={ "login-input"}
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						value={ email }
+						onChange={ (e) => setEmail(e.target.value) }
 						type="email"
 						placeholder="Email"
 					/>
 					<input
 						className={ "login-input"}
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						value={ password }
+						onChange={ (e) => setPassword(e.target.value) }
 						type="password"
 						placeholder="Password"
 					/>
@@ -55,13 +54,14 @@ function App() {
 					<input
 						value="Register"
 						type="button"
-						onClick={(e) => window.location.href = '/register'}
+						onClick={ (e) => window.location.href = '/register' }
 					/>
 				</form>
-				<h2>&nbsp;</h2>
+				<br></br>
+				<br></br>
+				<br></br>
 			</div>
 		</div>
-
 	)
 }
 

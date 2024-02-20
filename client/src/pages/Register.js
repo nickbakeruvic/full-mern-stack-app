@@ -1,10 +1,7 @@
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import '../Login.css'
 
 function App() {
-	const history = useHistory()
-
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -27,47 +24,47 @@ function App() {
 		const data = await response.json()
 
 		if (data.status === 'ok') {
-			history.push('/login')
+			window.location.href = "/"
 		} else {
 			alert(data.error)
 		}
 	}
 
 	return (
-
 		<div class="container" onclick="onclick">
 			<div class="top"></div>
 			<div class="bottom"></div>
 			<div class="center">
 				<h2>Register</h2>
-				<form onSubmit={registerUser}>
+				<form onSubmit= {registerUser }>
 					<input
-						className={"login-input"}
-						value={name}
-						onChange={(e) => setName(e.target.value)}
+						className={ "login-input" }
+						value={ name }
+						onChange={ (e) => setName(e.target.value) }
 						type="text"
 						placeholder="Name"
 					/>
 					<input
-						className={"login-input"}
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						className={ "login-input" }
+						value={ email }
+						onChange={ (e) => setEmail(e.target.value) }
 						type="email"
 						placeholder="Email"
 					/>
 					<input
-						className={"login-input"}
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						className={ "login-input" }
+						value={ password }
+						onChange={ (e) => setPassword(e.target.value) }
 						type="password"
 						placeholder="Password"
 					/>
 					<input type="submit" value="Register" />
 				</form>
-				<h2>&nbsp;</h2>
+				<br></br>
+				<br></br>
+				<br></br>
 			</div>
 		</div>
-
 	)
 }
 
