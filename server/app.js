@@ -1,147 +1,126 @@
 const express = require('express')
 const cors = require('cors')
-const mongoose = require('mongoose')
-const User = require('./models/user.model')
-const Journal = require('./models/journal.model')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-var dotenv = require('dotenv')
+const database = require('./database.js')
 
 const app = express()
-
-dotenv.config()
 
 app.use(cors())
 app.use(express.json())
 app.use(express.static('static'))
 
-var mongo_uri = process.env.MONGO_URI;
-mongoose.connect(mongo_uri)
-
 app.post('/api/register', async (req, res) => {
 	console.log(req.body)
-	try {
-		const newPassword = await bcrypt.hash(req.body.password, 10)
-		await User.create({
-			name: req.body.name,
-			email: req.body.email,
-			password: newPassword,
-		})
-		res.json({ status: 'ok' })
-	} catch (err) {
-		res.json({ status: 'error', error: 'Duplicate email' })
-	}
+    const databaseResponse = await database.createUser(req.body.name, req.body.email, req.body.password)
+
+    if (databaseResponse.error) {
+        res.json({ status: 'error', error: databaseResponse.error })
+    } else {
+        res.json({ status: 'ok' })
+    }
 })
 
 app.post('/api/login', async (req, res) => {
-	const user = await User.findOne({
-		email: req.body.email,
-	})
 
-	if (!user) {
-		return res.json({ status: 'error', error: 'Invalid login' })
-	}
+    const databaseResponse = await database.loginUser(req.body.email, req.body.password)
 
-	const isPasswordValid = await bcrypt.compare(
-		req.body.password,
-		user.password
-	)
-
-	if (isPasswordValid) {
-		const token = jwt.sign(
+    if (databaseResponse.error) {
+        res.json({ status: 'error', error: databaseResponse.error })
+    } else {
+        const token = jwt.sign(
 			{
-				name: user.name,
-				email: user.email,
+				name: databaseResponse.name,
+				email: req.body.email,
 			},
 			'secret123'
 		)
-
-		return res.json({ status: 'ok', user: token })
-	} else {
-		return res.json({ status: 'error', user: false })
-	}
+        res.json({ status: 'ok', user: token })
+    }
 })
 
 app.get('/api/journals', async (req, res) => {
 	const token = req.headers['x-access-token']
+    let email = undefined
 
-	try {
-		const decoded = jwt.verify(token, 'secret123')
-		const email = decoded.email
-		const user = await User.findOne({ email: email })
-		const journals = await User.findById(user._id).populate({ path: "journals", });
+    try {
+        const decoded = jwt.verify(token, 'secret123')
+        email = decoded.email
+        if (!email) return res.json({ status: 'error', error: 'Invalid token' })
+    } catch {
+        return res.json({ status: 'error', error: 'Invalid token' })
+    }
 
-		return res.json({ status: 'ok', journals_list: journals})
-	} catch (error) {
-		console.log(error)
-		res.json({ status: 'error', error: 'invalid token' })
-	}
+    const databaseResponse = await database.getUserJournals(email)
+
+    if (databaseResponse.error) {
+        res.json({ status: 'error', error: databaseResponse.error })
+    } else {
+        res.json({ status: 'ok', journals_list: databaseResponse.journals_list})
+    }
 })
 
 app.post('/api/journals', async (req, res) => {
 	const token = req.headers['x-access-token']
+    let email = undefined
 
-	try {
-		const decoded = jwt.verify(token, 'secret123')
-		const email = decoded.email
+    try {
+        const decoded = jwt.verify(token, 'secret123')
+        email = decoded.email
+        if (!email) return res.json({ status: 'error', error: 'Invalid token' })
+    } catch {
+        return res.json({ status: 'error', error: 'Invalid token' })
+    }
 
-		new_journal_entry = await Journal.create({
-			title: req.body.title,
-			content: req.body.content,
-		})
+    const databaseResponse = await database.createUserJournal(email, req.body.title, req.body.content)
 
-		await User.updateOne(
-			{ email: email },
-			{ $push: { journals: new_journal_entry} }
-		)
+    if (databaseResponse.error) {
+        res.json({ status: 'error', error: databaseResponse.error })
+    } else {
+        res.json({ status: 'ok' })
+    }
 
-		return res.json({ status: 'ok' })
-	} catch (error) {
-		console.log(error)
-		// TODO: better error messages i.e. mongoose validation fails
-		res.json({ status: 'error', error: 'invalid token' })
-	}
 })
 
-// TODO: may need to check user in order to validate auth
 app.put('/api/journals', async (req, res) => {
-	const token = req.headers['x-access-token']
+    const token = req.headers['x-access-token']
+    let email = undefined
 
-	try {
-		const decoded = jwt.verify(token, 'secret123')
+    try {
+        const decoded = jwt.verify(token, 'secret123')
+        email = decoded.email
+        if (!email) return res.json({ status: 'error', error: 'Invalid token' })
+    } catch {
+        return res.json({ status: 'error', error: 'Invalid token' })
+    }
 
-		await Journal.updateOne(
-			{ _id: req.body.id },
-			{ $set: { title: req.body.title, content: req.body.content, last_edited: Date.now() } }
-		)
+    const databaseResponse = await database.updateUserJournal(req.body.id, req.body.title, req.body.content)
 
-		return res.json({ status: 'ok' })
-	} catch (error) {
-		console.log(error)
-		// TODO: better error messages i.e. mongoose validation fails
-		res.json({ status: 'error', error: 'invalid token' })
-	}
+    if (databaseResponse.error) {
+        res.json({ status: 'error', error: databaseResponse.error })
+    } else {
+        res.json({ status: 'ok' })
+    }
 })
 
-// TODO: may need to check user in order to validate auth
 app.delete('/api/journals', async (req, res) => {
 	const token = req.headers['x-access-token']
+    let email = undefined
 
-	console.log("delete")
+    try {
+        const decoded = jwt.verify(token, 'secret123')
+        email = decoded.email
+        if (!email) return res.json({ status: 'error', error: 'Invalid token' })
+    } catch {
+        return res.json({ status: 'error', error: 'Invalid token' })
+    }
 
-	try {
-		const decoded = jwt.verify(token, 'secret123')
+    const databaseResponse = await database.deleteUserJournal(req.body.id)
 
-		await Journal.deleteOne(
-			{ _id: req.body.id },
-		)
-
-		return res.json({ status: 'ok' })
-	} catch (error) {
-		console.log(error)
-		// TODO: better error messages i.e. mongoose validation fails
-		res.json({ status: 'error', error: 'invalid token' })
-	}
+    if (databaseResponse.error) {
+        res.json({ status: 'error', error: databaseResponse.error })
+    } else {
+        res.json({ status: 'ok' })
+    }
 })
 
 app.get('*', (req, res) => {
