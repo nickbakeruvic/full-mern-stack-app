@@ -7,7 +7,7 @@ import calendar_icon from './resources/calendar_icon.png'
 import edit_icon from './resources/edit_icon.png'
 import add_icon from './resources/add_icon.png'
 import logout_icon from './resources/logout_icon.png'
-import '../Dashboard.css'
+import './styles/Dashboard.css'
 
 const CleanupEditorContext = createContext(null)
 
