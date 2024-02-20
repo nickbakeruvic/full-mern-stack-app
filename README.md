@@ -25,7 +25,7 @@ Editing a journal:
 # Setup (remote host)
 
 To set up on a remote server, after cloning the repository, you will need to install dependencies, build & minify all scripts and then start a node process.
-You will also need to replace `mongoose.connect('mongodb+srv://xxx')` in `full-mern-stack-app/server/index.js` with your MongoDB URI.
+You will also need to create a `.env` file with a `MONGO_URI` variable corresponding to your MongoDB URI (`MONGO_URI="mongodb+srv://..."`.
 
 Install dependencies
 ```
@@ -49,7 +49,7 @@ Recommended:
 # Setup (development)
 
 A development environment offers many benefits, like being able to see changes to files propagate instantly. To set up a locally hosted development environment, after cloning the repository, you will need to start a React development server and a Node server.
-You will also need to replace `mongoose.connect('mongodb+srv://xxx')` in `full-mern-stack-app/server/index.js` with your MongoDB URI.
+You will also need to create a `.env` file with a `MONGO_URI` variable corresponding to your MongoDB URI (`MONGO_URI="mongodb+srv://..."`.
 
 Install client dependencies & start react server:
 ```
