@@ -65,5 +65,4 @@ yarn install
 yarn dev
 ```
 
-*Note: All API routes in `full-mern-stack-app/client/pages/*.js` will need to be prepended with `localhost:1337` assuming the node server is hosted on port 1337 of your localhost.
-e.g. `await fetch('/api/journals)` should become `await fetch('http://localhost:1337/api/journals'`. Additionally, lines 13 and 144-147 of `full-mern-stack-app/server/index.js` will need to be removed (as there are no static files to serve).*
+*Note: All API routes in `full-mern-stack-app/client/pages/*.js` will need to be prepended with `localhost:[your node port]` as with this development setup the node server will be bound to a different port than the react server.*
