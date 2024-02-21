@@ -2,12 +2,17 @@ import { useState } from 'react'
 import './styles/Login.css'
 
 function App() {
-	const [name, setName] = useState('')
-	const [email, setEmail] = useState('')
+	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const [confirmedPassword, setConfirmedPassword] = useState('')
 
 	async function registerUser(event) {
 		event.preventDefault()
+
+		if (password !== confirmedPassword) {
+			alert("Passwords do not match!")
+			return
+		}
 
 		const response = await fetch('/api/register', {
 			method: 'POST',
@@ -15,8 +20,7 @@ function App() {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				name,
-				email,
+				username,
 				password,
 			}),
 		})
@@ -39,17 +43,10 @@ function App() {
 				<form onSubmit= {registerUser }>
 					<input
 						className={ "login-input" }
-						value={ name }
-						onChange={ (e) => setName(e.target.value) }
+						value={ username }
+						onChange={ (e) => setUsername(e.target.value) }
 						type="text"
 						placeholder="Name"
-					/>
-					<input
-						className={ "login-input" }
-						value={ email }
-						onChange={ (e) => setEmail(e.target.value) }
-						type="email"
-						placeholder="Email"
 					/>
 					<input
 						className={ "login-input" }
@@ -57,6 +54,13 @@ function App() {
 						onChange={ (e) => setPassword(e.target.value) }
 						type="password"
 						placeholder="Password"
+					/>
+					<input
+						className={ "login-input" }
+						value={ confirmedPassword }
+						onChange={ (e) => setConfirmedPassword(e.target.value) }
+						type="password"
+						placeholder="Confirm Password"
 					/>
 					<input type="submit" value="Register" />
 				</form>

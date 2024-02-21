@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const User = require('./models/user.model')
 const Journal = require('./models/journal.model')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 
 var dotenv = require('dotenv')
 dotenv.config()
@@ -10,23 +9,22 @@ dotenv.config()
 var mongo_uri = process.env.MONGO_URI;
 mongoose.connect(mongo_uri)
 
-const createUser = async (name, email, password) => {
+const createUser = async (username, password) => {
     try {
 		const newPassword = await bcrypt.hash(password, 10)
         await User.create({
-            name: name,
-            email: email,
+            username: username,
             password: newPassword,
         })
         return { error: '' }
 	} catch (err) {
-		return { error: 'Duplicate email' }
+		return { error: 'Duplicate username' }
 	}
 }
 
-const loginUser = async (email, password) => {
+const loginUser = async (username, password) => {
 	const user_record = await User.findOne({
-		email: email,
+		username: username,
 	})
 
 	if (!user_record) return { error: 'Invalid login' }
@@ -38,12 +36,12 @@ const loginUser = async (email, password) => {
 
     if (!isPasswordValid) return { error: 'Invalid login' }
 
-	return { name: user_record.name, error: '' }
+	return { error: '' }
 }
 
-const getUserJournals = async (email) => {
+const readUserJournals = async (username) => {
     const user_record = await User.findOne({
-        email: email
+        username: username
     })
 
     if (!user_record) return { error: 'Unable to find user' }
@@ -55,7 +53,7 @@ const getUserJournals = async (email) => {
     return { journals_list: journals}
 }
 
-const createUserJournal = async (email, title, content) => {
+const createUserJournal = async (username, title, content) => {
     if (!title || !content) return { error: 'Title / content fields cannot be empty' }
 
     try {
@@ -66,7 +64,7 @@ const createUserJournal = async (email, title, content) => {
 
         await User.updateOne(
             {
-                email: email
+                username: username
             },
             {
                 $push: {
@@ -112,4 +110,4 @@ const deleteUserJournal = async (journal_id) => {
     return { error: '' }
 }
 
-module.exports = { createUser, loginUser, getUserJournals, createUserJournal, updateUserJournal, deleteUserJournal }
+module.exports = { createUser, loginUser, readUserJournals, createUserJournal, updateUserJournal, deleteUserJournal }

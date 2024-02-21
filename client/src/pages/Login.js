@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './styles/Login.css'
 
 function App() {
-	const [email, setEmail] = useState('')
+	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
 	async function loginUser(event) {
@@ -14,7 +14,7 @@ function App() {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				email,
+				username,
 				password,
 			}),
 		})
@@ -38,10 +38,10 @@ function App() {
 				<form onSubmit={ loginUser }>
 					<input
 						className={ "login-input"}
-						value={ email }
-						onChange={ (e) => setEmail(e.target.value) }
-						type="email"
-						placeholder="Email"
+						value={ username }
+						onChange={ (e) => setUsername(e.target.value) }
+						type="text"
+						placeholder="Name"
 					/>
 					<input
 						className={ "login-input"}

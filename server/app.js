@@ -12,27 +12,34 @@ const makeApp = function (database) {
     app.use(express.static('static'))
 
     app.post('/api/register', async (req, res) => {
-        console.log(req.body)
-        const databaseResponse = await database.createUser(req.body.name, req.body.email, req.body.password)
+
+        console.log(req.body.username + " - " + req.body.password)
+        if (!req.body.username || !req.body.password) {
+            res.status(400)
+            return res.json({ status: 'error', error: 'username and password fields must be present' })
+        }
+
+        const databaseResponse = await database.createUser(req.body.username, req.body.password)
 
         if (databaseResponse.error) {
+            res.status(400)
             res.json({ status: 'error', error: databaseResponse.error })
         } else {
+            res.status(200)
             res.json({ status: 'ok' })
         }
     })
 
     app.post('/api/login', async (req, res) => {
 
-        const databaseResponse = await database.loginUser(req.body.email, req.body.password)
+        const databaseResponse = await database.loginUser(req.body.username, req.body.password)
 
         if (databaseResponse.error) {
             res.json({ status: 'error', error: databaseResponse.error })
         } else {
             const token = jwt.sign(
                 {
-                    name: databaseResponse.name,
-                    email: req.body.email,
+                    username: req.body.username,
                 },
                 'secret123'
             )
@@ -42,17 +49,17 @@ const makeApp = function (database) {
 
     app.get('/api/journals', async (req, res) => {
         const token = req.headers['x-access-token']
-        let email = undefined
+        let username = undefined
 
         try {
             const decoded = jwt.verify(token, 'secret123')
-            email = decoded.email
-            if (!email) return res.json({ status: 'error', error: 'Invalid token' })
+            username = decoded.username
+            if (!username) return res.json({ status: 'error', error: 'Invalid token' })
         } catch {
             return res.json({ status: 'error', error: 'Invalid token' })
         }
 
-        const databaseResponse = await database.getUserJournals(email)
+        const databaseResponse = await database.readUserJournals(username)
 
         if (databaseResponse.error) {
             res.json({ status: 'error', error: databaseResponse.error })
@@ -63,17 +70,17 @@ const makeApp = function (database) {
 
     app.post('/api/journals', async (req, res) => {
         const token = req.headers['x-access-token']
-        let email = undefined
+        let username = undefined
 
         try {
             const decoded = jwt.verify(token, 'secret123')
-            email = decoded.email
-            if (!email) return res.json({ status: 'error', error: 'Invalid token' })
+            username = decoded.username
+            if (!username) return res.json({ status: 'error', error: 'Invalid token' })
         } catch {
             return res.json({ status: 'error', error: 'Invalid token' })
         }
 
-        const databaseResponse = await database.createUserJournal(email, req.body.title, req.body.content)
+        const databaseResponse = await database.createUserJournal(username, req.body.title, req.body.content)
 
         if (databaseResponse.error) {
             res.json({ status: 'error', error: databaseResponse.error })
@@ -85,12 +92,12 @@ const makeApp = function (database) {
 
     app.put('/api/journals', async (req, res) => {
         const token = req.headers['x-access-token']
-        let email = undefined
+        let username = undefined
 
         try {
             const decoded = jwt.verify(token, 'secret123')
-            email = decoded.email
-            if (!email) return res.json({ status: 'error', error: 'Invalid token' })
+            username = decoded.username
+            if (!username) return res.json({ status: 'error', error: 'Invalid token' })
         } catch {
             return res.json({ status: 'error', error: 'Invalid token' })
         }
@@ -106,12 +113,12 @@ const makeApp = function (database) {
 
     app.delete('/api/journals', async (req, res) => {
         const token = req.headers['x-access-token']
-        let email = undefined
+        let username = undefined
 
         try {
             const decoded = jwt.verify(token, 'secret123')
-            email = decoded.email
-            if (!email) return res.json({ status: 'error', error: 'Invalid token' })
+            username = decoded.username
+            if (!username) return res.json({ status: 'error', error: 'Invalid token' })
         } catch {
             return res.json({ status: 'error', error: 'Invalid token' })
         }

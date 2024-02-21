@@ -7,7 +7,7 @@ const Journal = new mongoose.Schema(
 		date: { type: Date, default: Date.now, required: true },
 		last_edited: { type: Date, default: Date.now, required: true },
 	},
-	{ collection: 'journal-data' }
+	{ collection: 'JournalData' }
 )
 
 const model = mongoose.model('Journal', Journal)
