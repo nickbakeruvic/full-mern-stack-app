@@ -21,8 +21,8 @@ function App() {
 
 		const data = await response.json()
 
-		if (data.user) {
-			localStorage.setItem('token', data.user)
+		if (data.access_token) {
+			localStorage.setItem('token', data.access_token)
 			window.location.href = '/dashboard'
 		} else {
 			alert('Please check your username and password')
