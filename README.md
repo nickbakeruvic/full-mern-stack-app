@@ -13,8 +13,9 @@ Features:
 - Additional technologies being run on the hosting server: NGINX used as reverse proxy to optimize load times, PM2 used to manage the node process to ensure minimal downtime, Yarn used for package management, Certbot used to automatically update SSL certificates
 
 To do:
-- Add a calendar view to dashboard
-- Allow users to add tags to journal entries & search by title, content, tag
+- Front-end testing
+- Create a calendar view to allow users to see when journals were created / last edited
+- Allow users to tag journal entries and search search by tags when in dashboard view
 
 Login:
 ![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/729168aa-52ff-4055-98f0-ef65d86b508e)
