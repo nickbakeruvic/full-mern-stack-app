@@ -2,9 +2,9 @@
 
 Features:
 - Hosted at [nickbaker.cloud](http://www.nickbaker.cloud)
-- User authentication via JWT
 - REST API to Create / Read / Update / Delete journals and other user data
-- react-scripts used to minify scripts to optimize site load time
+- User authentication via JWT
+- Created with the MERN Stack - MongoDB, Express.js, React, Node.js
 - Jest used for testing
 - CI/CD pipelining implemented to test changes and deploy new code on the remote server to update [nickbaker.cloud](http://www.nickbaker.cloud) automatically
   - Jest mock functions used to independently test the http api and the database via dependency injection
@@ -66,6 +66,13 @@ In another terminal, install server dependencies & start the node server (using 
 cd full-mern-stack-app/server
 yarn install
 yarn dev
+```
+# Testing
+
+Server-side tests:
+```
+cd server
+yarn test
 ```
 
 *Note: All API routes in `full-mern-stack-app/client/pages/*.js` will need to be prepended with `localhost:[your node port]` as with this development setup the node server will be bound to a different port than the react server.*
