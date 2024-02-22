@@ -8,7 +8,7 @@ Features:
 - Jest used for testing
 - CI/CD pipelining implemented to test changes and deploy new code on the remote server to update [nickbaker.cloud](http://www.nickbaker.cloud) automatically
   - Jest mock functions used to independently test the http api and the database
-  - Shell script used to compiling & minifying scripts and combining them into a `static/` folder to optimize load times
+  - Shell script used to compile & minify scripts and then combine them into a `static/` folder to optimize load times
   - The remote server hosting [nickbaker.cloud](http://www.nickbaker.cloud) will only be updated if tests pass
 - Additional technologies being run on the hosting server: NGINX used as reverse proxy to optimize load times, PM2 used to manage the node process to ensure minimal downtime, Yarn used for package management, Certbot used to automatically update SSL certificates
 
