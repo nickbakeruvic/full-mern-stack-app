@@ -44,10 +44,9 @@ jobs:
           host: ${{ secrets.DROPLET_IP }}
           username: ${{ secrets.DROPLET_USERNAME }}
           password: ${{ secrets.DROPLET_PASSWORD }}
-          script: echo "hello world"
-          # script: |
-          #   cd full-mern-stack-app/server
-          #   git pull
-          #   ./deploy.sh
+          script: |
+            cd full-mern-stack-app/server
+            git pull
+            ./deploy.sh
       
       - run: echo "Job completed - ${{ job.status }}."
