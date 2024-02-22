@@ -67,6 +67,9 @@ cd full-mern-stack-app/server
 yarn install
 yarn dev
 ```
+
+*Note: All API routes in `full-mern-stack-app/client/pages/*.js` will need to be prepended with `localhost:[your node port]` as with this development setup the node server will be bound to a different port than the react server.*
+
 # Testing
 
 Server-side tests:
@@ -74,5 +77,3 @@ Server-side tests:
 cd server
 yarn test
 ```
-
-*Note: All API routes in `full-mern-stack-app/client/pages/*.js` will need to be prepended with `localhost:[your node port]` as with this development setup the node server will be bound to a different port than the react server.*
