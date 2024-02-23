@@ -45,11 +45,6 @@ const Dashboard = () => {
 		}
 	}, [])
 
-	function logout() {
-		localStorage.setItem('token', '')
-		window.location.href = '/'
-	}
-
 	const cleanupEditor = function () {
 		populateJournals();
 		setAddingJournal(false);
@@ -57,27 +52,7 @@ const Dashboard = () => {
 
 	return (
 		<>
-			<div className="add-button-wrapper" id="button-wrapper" onClick={ () => setAddingJournal(true) }>
-				<img
-					src={ add_icon }
-					className="icon"
-					alt="Add journal icon">
-				</img>
-				<span className="button-text">
-					Add Journal
-				</span>
-			</div>
-
-			<div className="delete-button-wrapper" id="button-wrapper" onClick={ () => logout() }>
-				<img
-					src={ logout_icon }
-					className="icon"
-					alt="Logout icon">
-				</img>
-				<span className="button-text">
-					Logout
-				</span>
-			</div>
+			<LogoutButton />
 
 			<CleanupEditorContext.Provider value={ cleanupEditor }>
 				{addingJournal &&
@@ -90,14 +65,19 @@ const Dashboard = () => {
 				</div>
 
 				<div className="dashboard-item-wrapper">
-					{journals.map(journal => (
+					{ journals.map(journal => (
 						<JournalItem
 							key={ journal._id }
 							journal={ journal }
 						/>
-					))}
+					)) }
 				</div>
 			</CleanupEditorContext.Provider>
+
+			{ journals.length === 0 &&
+					<EmptyJournalsPage/> }
+
+			<AddJournalButton addJournalCallback={ setAddingJournal }/>
 		</>
 	)
 }
@@ -320,6 +300,50 @@ function DeleteJournalButton({ journal }) {
 				{ deleteIconMessage }
 			</span>
 		</div>
+	)
+}
+
+function LogoutButton() {
+
+	function logout() {
+		localStorage.setItem('token', '')
+		window.location.href = '/'
+	}
+
+	return (
+		<div className="logout-button-wrapper" id="button-wrapper" onClick={ () => logout() }>
+			<img
+				src={ logout_icon }
+				className="icon"
+				alt="Logout icon">
+			</img>
+			<span className="button-text">
+				Logout
+			</span>
+		</div>
+	)
+
+}
+
+function AddJournalButton({ addJournalCallback }) {
+	return (
+		<div className="add-button-wrapper" id="button-wrapper" onClick={ () => addJournalCallback(true) }>
+			<img
+				src={ add_icon }
+				className="icon"
+				alt="Add journal icon">
+			</img>
+			<span className="button-text">
+				Add Journal
+			</span>
+		</div>
+	)
+}
+
+function EmptyJournalsPage() {
+
+	return (
+		<p>Hello world</p>
 	)
 }
 
