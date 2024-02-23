@@ -5,8 +5,10 @@
 - Created with the MERN Stack - MongoDB, Express.js, React, Node.js
 - Designed a RESTful API to Create / Read / Update / Delete journals and manage user data
 - Tested back-end components using Jest
-  - Jest mock functions used to independently test the http api and the database via dependency injection
-- Accomplished CI/CD with Github Actions: on pushes to the repository, tests will be run on the new code and updates will be pushed to the remote server hosting [nickbaker.cloud](http://www.nickbaker.cloud) only if tests are successful
+  - Jest mock functions used to independently test back-end components (e.g. the HTTP server and the database) via dependency injection
+- Accomplished CI/CD with Github Actions - on pushes to the repository,
+  - All tests will be run
+  - If tests pass, updates will be pushed to the remote server hosting the website
 - Managed user authentication via JWT
 - Additional technologies used on the server hosting the website:
   - NGINX used to reduce load times through caching etc. and to more efficiently serve minified static files
