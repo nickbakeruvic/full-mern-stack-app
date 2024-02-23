@@ -18,13 +18,15 @@ To do:
 - Allow users to tag journal entries and search search by tags when in dashboard view
 
 Login:
-![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/729168aa-52ff-4055-98f0-ef65d86b508e)
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/31093107-fe47-4bf6-8fc3-d21e8925cf4c)
 
 Dashboard page:
-![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/1a7d57dd-011e-4573-973a-50c7133b9168)
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/0273f0d1-a85d-431a-b435-748401098756)
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/47861914-fd99-40b3-b502-4d005142614f)
 
 Editing a journal:
-![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/f187bb91-dd2c-4ba9-9dc2-936fdb24959e)
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/8999d2cb-efe2-4887-bf3f-c1e33471c4ef)
+
 
 # Setup (remote host)
 
