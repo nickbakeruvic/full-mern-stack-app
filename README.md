@@ -1,30 +1,35 @@
 # MERN Stack Journal App
 
-Features:
+**Features:**
 - Hosted at [nickbaker.cloud](http://www.nickbaker.cloud)
-- REST API to Create / Read / Update / Delete journals and other user data
-- User authentication via JWT
 - Created with the MERN Stack - MongoDB, Express.js, React, Node.js
-- Jest used for testing
-- CI/CD pipelining implemented to test changes and deploy new code on the remote server to update [nickbaker.cloud](http://www.nickbaker.cloud) automatically
-  - Jest mock functions used to independently test the http api and the database via dependency injection
-  - Shell script used to compile & minify scripts and then combine them into a `static/` folder to optimize load times
-  - The remote server hosting [nickbaker.cloud](http://www.nickbaker.cloud) will only be updated if tests pass
-- Additional technologies being run on the hosting server: NGINX used as reverse proxy to optimize load times, PM2 used to manage the node process to ensure minimal downtime, Yarn used for package management, Certbot used to automatically update SSL certificates
+- Designed a RESTful API to Create / Read / Update / Delete journals and manage user data
+- Tested back-end components using Jest
+  - Jest mock functions used to independently test back-end components (e.g. the HTTP server and the database) via dependency injection
+- Accomplished CI/CD with Github Actions - on pushes to the repository,
+  - All tests will be run
+  - If tests pass, updates will be pushed to the remote server hosting the website
+- Managed user authentication via JWT
+- Additional technologies used on the server hosting the website:
+  - NGINX used to reduce load times through caching etc. and to more efficiently serve minified static files
+  - PM2 used to ensure reliable uptime for the node process
+  - Yarn used for package management
+  - Certbot used to automatically update SSL certificates
 
-To do:
+**To do:**
 - Front-end testing
 - Create a calendar view to allow users to see when journals were created / last edited
 - Allow users to tag journal entries and search search by tags when in dashboard view
 
-Login:
-![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/729168aa-52ff-4055-98f0-ef65d86b508e)
+**Login:**
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/31093107-fe47-4bf6-8fc3-d21e8925cf4c)
 
-Dashboard page:
-![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/1a7d57dd-011e-4573-973a-50c7133b9168)
+**Dashboard page:**
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/0273f0d1-a85d-431a-b435-748401098756)
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/47861914-fd99-40b3-b502-4d005142614f)
 
-Editing a journal:
-![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/f187bb91-dd2c-4ba9-9dc2-936fdb24959e)
+**Editing a journal:**
+![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/8999d2cb-efe2-4887-bf3f-c1e33471c4ef)
 
 # Setup (remote host)
 
