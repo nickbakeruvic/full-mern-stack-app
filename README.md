@@ -2,15 +2,17 @@
 
 **Features:**
 - Hosted at [nickbaker.cloud](http://www.nickbaker.cloud)
-- REST API to Create / Read / Update / Delete journals and other user data
-- User authentication via JWT
 - Created with the MERN Stack - MongoDB, Express.js, React, Node.js
-- Jest used for testing
-- CI/CD pipelining implemented to test changes and deploy new code on the remote server to update [nickbaker.cloud](http://www.nickbaker.cloud) automatically
+- Designed a RESTful API to Create / Read / Update / Delete journals and manage user data
+- Tested back-end components using Jest
   - Jest mock functions used to independently test the http api and the database via dependency injection
-  - Shell script used to compile & minify scripts and then combine them into a `static/` folder to optimize load times
-  - The remote server hosting [nickbaker.cloud](http://www.nickbaker.cloud) will only be updated if tests pass
-- Additional technologies being run on the hosting server: NGINX used as reverse proxy to optimize load times, PM2 used to manage the node process to ensure minimal downtime, Yarn used for package management, Certbot used to automatically update SSL certificates
+- Accomplished CI/CD with Github Actions: on pushes to the repository, tests will be run on the new code and updates will be pushed to the remote server hosting [nickbaker.cloud](http://www.nickbaker.cloud) only if tests are successful
+- Managed user authentication via JWT
+- Additional technologies used on the server hosting the website:
+  - NGINX used to reduce load times through caching etc. and to more efficiently serve minified static files
+  - PM2 used to ensure reliable uptime for the node process
+  - Yarn used for package management
+  - Certbot used to automatically update SSL certificates
 
 **To do:**
 - Front-end testing
