@@ -1,6 +1,6 @@
 # MERN Stack Journal App
 
-Features:
+**Features:**
 - Hosted at [nickbaker.cloud](http://www.nickbaker.cloud)
 - REST API to Create / Read / Update / Delete journals and other user data
 - User authentication via JWT
@@ -12,21 +12,20 @@ Features:
   - The remote server hosting [nickbaker.cloud](http://www.nickbaker.cloud) will only be updated if tests pass
 - Additional technologies being run on the hosting server: NGINX used as reverse proxy to optimize load times, PM2 used to manage the node process to ensure minimal downtime, Yarn used for package management, Certbot used to automatically update SSL certificates
 
-To do:
+**To do:**
 - Front-end testing
 - Create a calendar view to allow users to see when journals were created / last edited
 - Allow users to tag journal entries and search search by tags when in dashboard view
 
-Login:
+**Login:**
 ![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/31093107-fe47-4bf6-8fc3-d21e8925cf4c)
 
-Dashboard page:
+**Dashboard page:**
 ![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/0273f0d1-a85d-431a-b435-748401098756)
 ![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/47861914-fd99-40b3-b502-4d005142614f)
 
-Editing a journal:
+**Editing a journal:**
 ![image](https://github.com/nickbakeruvic/full-mern-stack-app/assets/106908272/8999d2cb-efe2-4887-bf3f-c1e33471c4ef)
-
 
 # Setup (remote host)
 
