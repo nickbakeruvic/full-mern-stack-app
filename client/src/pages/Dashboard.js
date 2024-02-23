@@ -7,6 +7,7 @@ import calendar_icon from './resources/calendar_icon.png'
 import edit_icon from './resources/edit_icon.png'
 import add_icon from './resources/add_icon.png'
 import logout_icon from './resources/logout_icon.png'
+import empty_journals_icon from './resources/empty_journals_icon.png'
 import './styles/Dashboard.css'
 
 const CleanupEditorContext = createContext(null)
@@ -14,6 +15,7 @@ const CleanupEditorContext = createContext(null)
 const Dashboard = () => {
 	const [journals, setJournals] = useState([])
 	const [addingJournal, setAddingJournal] = useState(false)
+	const [emptyJournals, setEmptyJournals] = useState(false)
 
 	async function populateJournals() {
 		const req = await fetch('/api/journals', {
@@ -28,6 +30,11 @@ const Dashboard = () => {
 		} else {
 			console.log(data.error)
 		}
+
+		if (data.journals_list.journals.length === 0)
+			setEmptyJournals(true)
+		else
+			setEmptyJournals(false)
 	}
 
 	useEffect(() => {
@@ -53,6 +60,7 @@ const Dashboard = () => {
 	return (
 		<>
 			<LogoutButton />
+			<AddJournalButton addJournalCallback={ setAddingJournal }/>
 
 			<CleanupEditorContext.Provider value={ cleanupEditor }>
 				{addingJournal &&
@@ -74,10 +82,8 @@ const Dashboard = () => {
 				</div>
 			</CleanupEditorContext.Provider>
 
-			{ journals.length === 0 &&
-					<EmptyJournalsPage/> }
-
-			<AddJournalButton addJournalCallback={ setAddingJournal }/>
+			{ emptyJournals &&
+				<EmptyJournalsPage/> }
 		</>
 	)
 }
@@ -343,7 +349,18 @@ function AddJournalButton({ addJournalCallback }) {
 function EmptyJournalsPage() {
 
 	return (
-		<p>Hello world</p>
+		<>
+			<div className="empty-journals-icon-wrapper">
+				<img
+					src={ empty_journals_icon }
+					className="empty-journals-icon"
+					alt="Empty journals icon">
+				</img>
+			</div>
+			<div className="empty-journals-wrapper">
+				<span>Looks pretty empty. Get started by adding some journals!</span>
+			</div>
+		</>
 	)
 }
 
